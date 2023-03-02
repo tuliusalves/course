@@ -1,11 +1,14 @@
 package com.tulius.course.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 /*Quando passamos de POO para relacional, é preciso guiar-se pela especificação
  * ao invés da implementação. Por isso usa-se o jarkata.persistence*/
@@ -24,6 +27,19 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
+	
+	/*Criando associações
+	 *Com precisamos instanciar as coleções, orders já deve ser
+	 *instanciado com ArrayList
+	 *No caso de coleção, apenas será preciso adicionar o método get. 
+	 *Pois penas será apenas acrescentado ou removido. 
+	 *Não será preciso trocar a lista 
+	 *
+	 *A associação paralela deve ser feita nessa lista usando @OneToMany, 
+	 *porém deve ser mapeado dentro do parênteses o nome do atributo que
+	 *está do outro lado da associação, no caso o “client” de User.*/
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders = new ArrayList<>();
 	
 	//Ao trabalhar com frameworks, deve-se criar um construtor vazio.
 	public User() {}
@@ -75,6 +91,10 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public List<Order> getOrders() {
+		return orders;
+	}
 
 	@Override
 	public int hashCode() {
@@ -97,6 +117,8 @@ public class User implements Serializable {
 			return false;
 		return true;
 	}
+
+	
 	
 	
 	
