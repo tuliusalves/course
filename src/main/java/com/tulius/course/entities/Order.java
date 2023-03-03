@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.tulius.course.entities.enums.OrderStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +28,11 @@ public class Order implements Serializable{
 	 * Obs: formato (“ano-mês-dia ‘T’  hora:minuto:seg’Z’ ,  timezone= “padrão universal grenuwich”*/
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone= "GMT")
 	private Instant moment;
+	
+	/*Criando atributo do enum. Integer para explicitar que será gravado no BD um número
+	 * inteiro. Porém isso apenas existe internamente na classe "Order", para o externo
+	 * o "orderStatus ainda está sendo mantido.*/
+	private Integer orderStatus;
 	/*Criando associações
 	 * No caso um Order só tem um usuário que é o "client".*/
 	@ManyToOne
@@ -34,11 +40,13 @@ public class Order implements Serializable{
 	private User client;
 	
 	public Order() {}
-
-	public Order(Long id, Instant moment, User client) {
+	
+	public Order(Long id, Instant moment,OrderStatus orderStatus, User client) {
 		super();
 		this.id = id;
 		this.moment = moment;
+		//Dessa vez, passaremos o set para setar diretamente os dados no construtor.
+		setOrderStatus(orderStatus);
 		this.client = client;
 	}
 
@@ -58,6 +66,21 @@ public class Order implements Serializable{
 		this.moment = moment;
 	}
 
+	
+	public OrderStatus getOrderStatus() {
+		//Para o get devemos passar o método estático de conversão do numérico
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		/*Já o set é preciso guardar internamente o número inteiro, nesse caso
+		 * usa-se o "get.code()"
+		 * Mas por precaução faça a checagem do "null"*/
+		if(orderStatus != null) {
+			this.orderStatus = orderStatus.getCode();
+		}
+	}
+	
 	public User getClient() {
 		return client;
 	}
@@ -65,6 +88,7 @@ public class Order implements Serializable{
 	public void setClient(User client) {
 		this.client = client;
 	}
+	
 
 	@Override
 	public int hashCode() {
