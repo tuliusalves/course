@@ -3,6 +3,8 @@ package com.tulius.course.entities;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,14 +23,12 @@ public class Order implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	//Para gegar o instante do pedido, o "Instant" é mais útil que o date
+	/*Para gegar o instante do pedido, o "Instant" é mais útil que o date
+	 * Obs: formato (“ano-mês-dia ‘T’  hora:minuto:seg’Z’ ,  timezone= “padrão universal grenuwich”*/
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone= "GMT")
 	private Instant moment;
 	/*Criando associações
-	 * No caso um Order só tem um usuário que é o "client". Logo, a relação
-	 * é, "vários para um", representado pela anotação @ManyToOne.
-	 * relacionamento entre Order e client. Para que o jpa faça a transformação 
-	 * em chave estrangeira no BD. @JoinColumn é a anotação que indica o nome
-	 * da chave estrangeira no Bd.*/
+	 * No caso um Order só tem um usuário que é o "client".*/
 	@ManyToOne
 	@JoinColumn(name= "client_id")
 	private User client;

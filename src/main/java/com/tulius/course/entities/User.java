@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,6 +40,10 @@ public class User implements Serializable {
 	 *A associação paralela deve ser feita nessa lista usando @OneToMany, 
 	 *porém deve ser mapeado dentro do parênteses o nome do atributo que
 	 *está do outro lado da associação, no caso o “client” de User.*/
+	
+	/*Para evitar o erro de loop de "jackson" um dos lados da dependência
+	 * deve ter o @JsonIgnore*/
+	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 	
