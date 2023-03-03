@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.tulius.course.entities.Order;
 import com.tulius.course.entities.User;
+import com.tulius.course.entities.enums.OrderStatus;
 import com.tulius.course.repositories.OrderRepository;
 import com.tulius.course.repositories.UserRepository;
 /*Agora será preciso fazer com que a classe “TestConfig” seja executada.
@@ -29,9 +30,9 @@ public class TestConfig implements CommandLineRunner{
 		User u2 = new User(null, "Alex Green", "alex@gmail.com", "977777777", "123456");
 		
 		//No final temos um atributo do tipo user sendo passado.
-		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), u1);
-		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), u2);
-		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), u1);
+		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"),OrderStatus.PAID, u1);
+		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"),OrderStatus.WAITTING_PAYMENT, u2);
+		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"),OrderStatus.WAITTING_PAYMENT, u1);
 		
 		/*Para salvar no BD. Usando o objeto userRepository utilize o método "saveAll"
 		 * Passando como argumento o método asList. Ele pertence a classe Arrays que
