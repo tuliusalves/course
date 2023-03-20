@@ -17,6 +17,9 @@ import com.tulius.course.repositories.OrderRepository;
 import com.tulius.course.repositories.UserRepository;
 /*Agora será preciso fazer com que a classe “TestConfig” seja executada.
 Para fazer isso será preciso implementar a interface “CommandLineRunner”. */
+
+
+//Teste de push com STS
 @Configuration
 @Profile("test")
 public class TestConfig implements CommandLineRunner{
